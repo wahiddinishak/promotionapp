@@ -22,3 +22,6 @@ Mohon lakukan sesuai urutan step berikut, dimulai dari point pertama :
 update-database
 ```
 ![](https://gitlab.com/ishwhd/image/-/raw/main/Promo/update-database.JPG)
+
+- [ ] [Download Template Upload Store xlsx](https://gitlab.com/ishwhd/image/-/raw/main/Promo/Store.xlsx)
+
