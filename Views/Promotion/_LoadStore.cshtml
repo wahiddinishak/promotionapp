@@ -1,0 +1,21 @@
+﻿
+
+<table class="table table-hover">
+    <tr>
+        <th></th>
+        <th>StoreId</th>
+        <th>StoreName</th>
+    </tr>
+    @foreach (var d in ViewBag.Store)
+    {
+        <tr>
+            <td>
+                <input type="checkbox"/>
+            </td>
+            <td>@d.storeId</td>
+            <td>@d.storeName</td>
+        </tr>        
+    }
+</table>
+
+

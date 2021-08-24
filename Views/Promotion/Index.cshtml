@@ -1,0 +1,130 @@
+﻿
+@{
+    ViewData["Title"] = "Promotion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        @ViewData["Title"]
+    </div>
+    <div class="card-body">
+        <div id="frm"></div>
+    </div>
+    <div class="card-footer">
+        <button id="submitData" class="btn btn-primary btn-sm">Submit</button>
+        <a href="/" class="btn btn-danger btn-sm">Cancel</a>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            LoadFrm();
+        });
+
+        function LoadFrm() {
+            $.get('@Url.Action("NewPromo", "Promotion")', null, function (result) {
+                $('#frm').html('');
+                $('#frm').html(result);
+
+                $('#valType').change(function () {
+                    var tipe = $('#valType').val();
+                    if (tipe == 'Percentage') {
+                        $('#valu').val(0);
+                        $("#valu").removeAttr("max");
+                        $('#valu').attr('max', 100);
+                    }
+                    else {
+                        $('#valu').val(0);
+                        $("#valu").removeAttr("max");
+                        $('#valu').attr('max', 999999999);
+                    }
+                    $('#valu').trigger("change");
+                })
+
+                $.get('@Url.Action("LoadStore", "Promotion")', null, function (result) {
+                    $('#tblStore').html('');
+                    $('#tblStore').html(result);
+                })
+
+                $('#dates').daterangepicker({
+                    singleDatePicker: false,
+                    showDropdowns: false,
+                    minYear: 2020,
+                    maxYear: parseInt(moment().format('YYYY'), 10),
+                    locale: {
+                        format: 'DD-MM-YYYY'
+                    }
+                },
+                    function (start, end) {
+                        $('#start').val(start.format('YYYY-MM-DD'));
+                        $('#end').val(end.format('YYYY-MM-DD'));
+                    }
+                );
+
+                $.validator.unobtrusive.parse('#_frm');
+
+                $('#submitData').click(function (e) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    Proses();
+                });
+            });
+        }
+
+        function Proses() {
+            if ($('#_frm').valid()) {
+
+
+                var str = [];
+                $('#tblStore').find('tr').each(function (i, x) {
+                    var row = $(this);
+                    if (row.find('input[type="checkbox"]').is(':checked')) {
+                        str[i] = row.find('td').eq(1).html();
+                    }
+                });
+                $('#stre').val(str.join());
+
+                var form = $('#_frm')[0];
+                var data = new FormData(form);
+                $.ajax({
+                        type: "POST",
+                        enctype: 'multipart/form-data',
+                        url: '@Url.Action("Submit", "Promotion")',
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        timeout: 600000,
+                        success: function (result) {
+                            if (result == "OK") {
+                                Swal.fire(
+                                    'Success !',
+                                    'Promotion Saved!',
+                                    'success'
+                                );
+                                LoadFrm();
+                            }
+                            else {
+                                Swal.fire(
+                                    'Info !',
+                                    ''+ result +'',
+                                    'error'
+                                );
+                            }
+                        },
+                        error: function (e) {
+                            Swal.fire(
+                                'Error !',
+                                '' + e + '',
+                                'error'
+                            );
+                        }
+                      });
+            }
+        }
+    </script>
+}
+

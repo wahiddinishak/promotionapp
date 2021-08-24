@@ -1,0 +1,73 @@
+﻿@model PromoApp.Models.PromoParam
+
+<form asp-controller="" asp-action="" id="_frm">
+    <input type="text" asp-for="id" id="id" class="d-none">
+
+    <div class="d-flex justify-content-between">
+        <div class="col-6">
+            <div class="form-group row">
+                <label asp-for="promoId" class="col-sm-4 col-form-label col-form-label-sm"></label>
+                <div class="col-sm-8">
+                    <input type="text" asp-for="promoId" class="form-control form-control-sm bg-gray-100" onfocus="blur()">
+                    <span asp-validation-for="promoId" class="badge badge-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="promoType" class="col-sm-4 col-form-label col-form-label-sm"></label>
+                <div class="col-sm-8">
+                    <select asp-for="promoType" class="form-control form-control-sm">
+                        <option selected hidden>-- Select Promo Type --</option>
+                        <option>Simple Discount</option>
+                        <option>Completed Discount</option>
+                    </select>                    
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="valueType" class="col-sm-4 col-form-label col-form-label-sm"></label>
+                <div class="col-sm-4">
+                    <select asp-for="valueType" class="form-control form-control-sm" id="valType">
+                        <option selected hidden>-- Select Value Type --</option>
+                        <option>Percentage</option>
+                        <option>Amount</option>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <input type="number" asp-for="value" class="form-control form-control-sm" min="0" id="valu">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="item" class="col-sm-4 col-form-label col-form-label-sm"></label>
+                <div class="col-sm-8">
+                    <input type="file" asp-for="item" accept=".txt" class="form-control form-control-sm">                    
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="store" class="col-sm-4 col-form-label col-form-label-sm"></label>
+                <div class="col-sm-8">
+                    <div id="tblStore"></div>
+                    <input id="stre" class="d-none" asp-for="store" type="text"/>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-6">
+            <div class="form-group row">
+                <label asp-for="promoDesc" class="col-sm-4 col-form-label col-form-label-sm"></label>
+                <div class="col-sm-8">
+                    <input asp-for="promoDesc" class="form-control form-control-sm" maxlength="30"/>
+                    <span asp-validation-for="promoDesc" class="badge badge-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label col-form-label-sm">Promo Duration</label>
+                <div class="col-sm-8">
+                    <input class="form-control form-control-sm" type="text" id="dates" />
+                    <input type="date" asp-for="promoStart" class="form-control form-control-sm d-none" id="start">
+                    <input type="date" asp-for="promoEnd" class="form-control form-control-sm d-none" id="end">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>

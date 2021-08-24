@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewData["Title"] = "Store";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        @ViewData["Title"]
+    </div>
+    <div class="card-body">
+        <div id="frm"></div>
+    </div>
+    <div class="card-footer">
+        <div id="upl"></div>            
+    </div>
+</div>
+
+
+
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            LoadFrm();
+            LoadUpl();
+        });
+
+        function LoadFrm() {
+            $.get('@Url.Action("LoadStore", "Store")', null, function (result) {
+                $('#frm').html('');
+                $('#frm').html(result);
+            })
+        }
+
+        function LoadUpl() {
+            $.get('@Url.Action("Upload", "Store")', null, function (result) {
+                $('#upl').html('');
+                $('#upl').html(result);
+            })
+        }
+
+        function proses() {
+            var form = $('#frmupload')[0];
+            var data = new FormData(form);
+
+            $.ajax({
+                type: "POST",
+                enctype: 'multipart/form-data',
+                url: '@Url.Action("proses_upload", "Store")',
+                data: data,
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 600000,
+                success: function (result) {
+                    if (result == "OK") {
+                        Swal.fire(
+                            'Success !',
+                            'Store Saved!',
+                            'success'
+                        );
+                        LoadFrm();
+                        LoadUpl();
+                    }
+                    else {
+                        Swal.fire(
+                            'Info !',
+                            '' + result + '',
+                            'error'
+                        );
+                    }
+                },
+                error: function (e) {
+                    Swal.fire(
+                        'Error !',
+                        '' + e + '',
+                        'error'
+                    );
+                }
+            });
+        }
+    </script>
+}
