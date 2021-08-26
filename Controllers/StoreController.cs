@@ -56,7 +56,7 @@ namespace PromoApp.Controllers
                     {
                         ExcelWorksheet ws = pkg.Workbook.Worksheets[0];
                         var rowCount = ws.Dimension.Rows;
-                        for (int row = 2; row < rowCount; row++)
+                        for (int row = 2; row <= rowCount; row++)
                         {
                             string storeId = ws.Cells[row, 1].Value.ToString().Trim();
                             string storeName = ws.Cells[row, 2].Value.ToString().Trim();
